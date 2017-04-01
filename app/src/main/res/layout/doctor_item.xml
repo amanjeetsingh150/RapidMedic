@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:textColor="#000"
+            android:id="@+id/doc_name_eng"
+            android:text="Dr. Reema Thareja"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:id="@+id/doc_name_hin"
+            android:textColor="#000"
+            android:text="डॉ रीमा थारेजा"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="right"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:padding="4dp"
+            android:id="@+id/doc_type_eng"
+            android:text="Cardiologist"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:padding="4dp"
+            android:id="@+id/doc_type_hin"
+            android:text="हृदय रोग विशेषज्ञ"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+</LinearLayout>
