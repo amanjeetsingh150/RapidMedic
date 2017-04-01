@@ -14,7 +14,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sync"/>
+            android:text="Sync"
+            android:id="@+id/sync"/>
         <TextView
             android:layout_width="wrap_content"
             android:padding="4dp"
@@ -39,6 +40,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:textColor="#000"
                 android:text="Temperature  "/>
             <View
                 android:layout_height="match_parent"
@@ -49,6 +51,7 @@
                 android:layout_weight="1"
                 android:padding="8dp"
                 android:id="@+id/temp_val"
+                android:textColor="#000"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="NULL"/>
@@ -63,6 +66,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:textColor="#000"
             android:text="Heart Rate  "/>
         <View
             android:layout_height="match_parent"
@@ -72,6 +76,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:padding="8dp"
+            android:textColor="#000"
             android:id="@+id/heart_val"
             android:layout_height="wrap_content"
             android:gravity="center"
