@@ -32,9 +32,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class UserInfoQrScan extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     ArrayList<String> finalStuff;
     private ZXingScannerView mScannerView;
+    private String doctorName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        doctorName = getIntent().getExtras().getString("Doctor");
+        Log.d("UserInfoQrScan",doctorName);
         mScannerView=new ZXingScannerView(this);
         setContentView(mScannerView);
     }
@@ -64,10 +67,10 @@ public class UserInfoQrScan extends AppCompatActivity implements ZXingScannerVie
             String loc=line.getAttribute("loc");
             String state=line.getAttribute("state");
             String pc=line.getAttribute("pc");
-            SharedPreferences preferences=this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            /*SharedPreferences preferences=this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor=preferences.edit();
             editor.putString("pincode",pc);
-            editor.commit();
+            editor.commit();*/
             new Submitting().execute(uid,name,gender,yob,house,loc,state,pc);
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,55 +110,21 @@ public class UserInfoQrScan extends AppCompatActivity implements ZXingScannerVie
             String state=string[6];
             String pc=string[7];
             finalStuff=new ArrayList<>();
-            finalStuff.add(uid);
+            //finalStuff.add(uid);
             finalStuff.add(name);
             finalStuff.add(gender);
             finalStuff.add(yob);
-            finalStuff.add(house);
-            finalStuff.add(loc);
-            finalStuff.add(state);
-            finalStuff.add(pc);
+            //finalStuff.add(house);
+            //finalStuff.add(loc);
+            //finalStuff.add(state);
+            //finalStuff.add(pc);
+            finalStuff.add(doctorName);
 
             TinyDB tinyDB = new TinyDB(getApplicationContext());
             tinyDB.putListString("personalDetail", finalStuff);
 
             Log.d("DoctorActivityQrScan", "BACKGROUND CHALA");
-//            JSONObject jsonObject=new JSONObject();
             String response="1";
-            /*try {
-                jsonObject.put("uid",uid);
-                jsonObject.put("name",name);
-                jsonObject.put("gender",gender);
-                jsonObject.put("yob",yob);
-                jsonObject.put("house",house);
-                jsonObject.put("loc",loc);
-                jsonObject.put("state",state);
-                jsonObject.put("pc",pc);
-                *//*URL url = new URL("https://6824f751.ngrok.io/save-a-user"); //Enter URL here
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setRequestMethod("POST"); // here you are telling that it is a POST request, which can be changed into "PUT", "GET", "DELETE" etc.
-                httpURLConnection.setRequestProperty("Content-Type", "application/json"); // here you are setting the `Content-Type` for the data you are sending which is `application/json`
-                httpURLConnection.connect();
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                wr.writeBytes(jsonObject.toString());
-                wr.flush();
-                wr.close();
-                InputStream inputStream=httpURLConnection.getInputStream();
-                if(inputStream==null){
-                    Log.e("Manual","input stream is null");
-                }
-                StringBuffer buffer=new StringBuffer();
-                String line="";
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(inputStream));
-                while((line=bufferedReader.readLine())!=null){
-                    buffer.append(line+"\n");
-                }
-                response=buffer.toString();
-                Log.d("SubmitActivity",response);*//*
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
             return response;
         }
 
@@ -165,7 +134,7 @@ public class UserInfoQrScan extends AppCompatActivity implements ZXingScannerVie
             Log.d("TAG","sca"+res);
             String r=res.trim();
             if(r.equals("1")){
-                Toast.makeText(UserInfoQrScan.this,"User Successfully Registered",Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserInfoQrScan.this,"Details Successfully Registered",Toast.LENGTH_SHORT).show();
                 progress.cancel();
                 /*SharedPreferences preferences=DoctorActivityQrScan.this.getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor=preferences.edit();

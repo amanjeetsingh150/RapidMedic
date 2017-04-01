@@ -1,7 +1,9 @@
 package com.developers.rapidmedic;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.MainThread;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -138,8 +140,8 @@ public class HospitalMap extends FragmentActivity implements OnMapReadyCallback 
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-
-                    return false;
+                    startActivity(new Intent(HospitalMap.this, MainActivity.class));
+                    return true;
                 }
             });
             progressDialog.cancel();

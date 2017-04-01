@@ -1,5 +1,6 @@
 package com.developers.rapidmedic;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private ArrayList<String> doctorNames;
     private DoctorNameAdapter doctorNameAdapter;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, doctorNames.get(position) + "Welcome !", Toast.LENGTH_SHORT).show();
+                intent = new Intent(MainActivity.this, UserInfoActivity.class);
+                intent.putExtra("Doctor",doctorNames.get(position));
+                startActivity(intent);
             }
         });
     }
