@@ -21,6 +21,7 @@
             android:padding="4dp"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:id="@+id/text_sync"
             android:text="Press if value is NULL\nयदि मूल्य NULL है प्रेस SYNC"/>
     </LinearLayout>
 
@@ -176,14 +177,34 @@
             android:gravity="center"
             android:text="NULL"/>
     </LinearLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        android:id="@+id/recordfb"
-        android:src="@drawable/mic"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="16dp"
+            android:layout_gravity="left"
+            android:clickable="true"
+            android:id="@+id/recordfb"
+            android:src="@drawable/mic"/>
+        <View
+            android:layout_height="match_parent"
+            android:layout_width="1dp"
+            android:background="@android:color/darker_gray"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:id="@+id/record"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Press the icon to record your message.\nअपने संदेश रिकॉर्ड करने के लिए आइकन दबाएं।"/>
+    </LinearLayout>
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

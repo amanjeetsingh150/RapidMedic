@@ -7,12 +7,12 @@ import com.google.zxing.common.StringUtils;
  */
 
 public class PatientData {
-    String temp;
-    String hearRate;
-    String name;
-    String age;
-    String gender;
-    String mob;
+    public String temp;
+    public String hearRate;
+    public String name;
+    public String age;
+    public String gender;
+    public String mob;
     public PatientData(){
 
     }

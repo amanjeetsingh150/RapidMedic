@@ -2,8 +2,10 @@ package com.developers.rapidmedic;
 
 import android.app.ProgressDialog;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,15 +14,22 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +68,7 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
-        /*TinyDB tinyDB = new TinyDB(getApplicationContext());
+        TinyDB tinyDB = new TinyDB(getApplicationContext());
         details = tinyDB.getListString("personalDetail");
 
         doctor = (TextView) findViewById(R.id.doc_head);
@@ -79,7 +88,7 @@ public class FormActivity extends AppCompatActivity {
         age = (TextView) findViewById(R.id.age);
         yearThis = Calendar.getInstance().get(Calendar.YEAR);
         yearBorn = Integer.parseInt(details.get(2));
-        age.setText(Integer.toString(yearThis - yearBorn));*/
+        age.setText(Integer.toString(yearThis - yearBorn));
         submit= (Button) findViewById(R.id.submit);
         mobileNumber= (EditText) findViewById(R.id.phone_number);
         fb= (FloatingActionButton) findViewById(R.id.recordfb);
@@ -100,13 +109,15 @@ public class FormActivity extends AppCompatActivity {
         sync= (Button) findViewById(R.id.sync);
         tempVal= (TextView) findViewById(R.id.temp_val);
         heartVal= (TextView) findViewById(R.id.heart_val);
-        mFileName= Environment.getDataDirectory().getAbsolutePath();
+        mFileName= Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName+="/recorded_audio.3gp";
 
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new HeartTempInfo().execute();
+                TextView text_sync = (TextView) findViewById(R.id.text_sync);
+                text_sync.setText("Values synced.");
             }
         });
         submit.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +129,8 @@ public class FormActivity extends AppCompatActivity {
                 PatientData patientData=new PatientData("Amanjeet",temp,heartRaterange,"21","M","9717003912");
                 //PatientData patientData=new PatientData(details.get(0),temp,heartRaterange,String.valueOf(yearThis-yearBorn),details.get(1),mob);
                 reference.setValue(patientData);
+                Toast.makeText(FormActivity.this, "रिपोर्ट भेज दी गई है", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -139,10 +152,43 @@ public class FormActivity extends AppCompatActivity {
         mRecorder.start();
     }
 
+
+
     private void stopRecording() {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+        TextView record = (TextView) findViewById(R.id.record);
+
+        record.setText("Message recorded.\nसंदेश रिकॉर्ड किया गया है.");
+
+        InputStream stream;
+        Uri downloadUrl;
+        // Create a storage reference from our app
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+        // Create a reference to "mountains.jpg"
+        StorageReference mountainsRef = storageRef.child("recorded_audio.3gp");
+
+        try {
+            stream = new FileInputStream(mFileName);
+            UploadTask uploadTask = mountainsRef.putStream(stream);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    Log.d("FormActivity","DONE UPLOAD");
+                }
+            });
+        }
+        catch (Exception e){
+            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class HeartTempInfo extends AsyncTask{
