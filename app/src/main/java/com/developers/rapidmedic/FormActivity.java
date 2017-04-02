@@ -73,7 +73,7 @@ public class FormActivity extends AppCompatActivity {
 
         doctor = (TextView) findViewById(R.id.doc_head);
         docName = details.get(3);
-        doctor.setText(docName);
+        doctor.setText("Report for "+ docName);
         Log.d("FormActivity", docName);
 
         name = (TextView) findViewById(R.id.name);
