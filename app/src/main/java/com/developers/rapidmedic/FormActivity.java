@@ -126,7 +126,7 @@ public class FormActivity extends AppCompatActivity {
                 mob=mobileNumber.getText().toString();
                 //yearThis = Calendar.getInstance().get(Calendar.YEAR);
                // yearBorn = Integer.parseInt(details.get(2));
-                PatientData patientData=new PatientData("Amanjeet",temp,heartRaterange,"21","M","9717003912");
+                PatientData patientData=new PatientData(details.get(0),temp,heartRaterange, Integer.toString(yearThis - yearBorn), details.get(1),mob);
                 //PatientData patientData=new PatientData(details.get(0),temp,heartRaterange,String.valueOf(yearThis-yearBorn),details.get(1),mob);
                 reference.setValue(patientData);
                 Toast.makeText(FormActivity.this, "रिपोर्ट भेज दी गई है", Toast.LENGTH_SHORT).show();
