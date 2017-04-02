@@ -1,17 +1,26 @@
 package com.developers.rapidmedic;
 
 import android.app.ProgressDialog;
+import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,10 +40,20 @@ public class FormActivity extends AppCompatActivity {
     private TextView age, gender, name, doctor;
     private int yearThis, yearBorn;
     String docName;
-
+    String temp;
+    DatabaseReference reference;
     private Button sync;
     private TextView tempVal;
+    private DatabaseReference mDatabase;
     private TextView heartVal;
+    private EditText mobileNumber;
+    String mob;
+    private Button submit;
+    String heartRaterange,mFileName;
+    FirebaseDatabase database ;
+    DatabaseReference myRef ;
+    private MediaRecorder mRecorder;
+    private FloatingActionButton fb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,23 +80,77 @@ public class FormActivity extends AppCompatActivity {
         yearThis = Calendar.getInstance().get(Calendar.YEAR);
         yearBorn = Integer.parseInt(details.get(2));
         age.setText(Integer.toString(yearThis - yearBorn));*/
+        submit= (Button) findViewById(R.id.submit);
+        mobileNumber= (EditText) findViewById(R.id.phone_number);
+        fb= (FloatingActionButton) findViewById(R.id.recordfb);
+        fb.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                    startRecording();
+                }else if(motionEvent.getAction()==MotionEvent.ACTION_UP){
+                    stopRecording();
+                }
 
+                return false;
+            }
+        });
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        reference=database.getReference("sixth-bone-163313");
         sync= (Button) findViewById(R.id.sync);
         tempVal= (TextView) findViewById(R.id.temp_val);
         heartVal= (TextView) findViewById(R.id.heart_val);
+        mFileName= Environment.getDataDirectory().getAbsolutePath();
+        mFileName+="/recorded_audio.3gp";
+
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new HeartTempInfo().execute();
             }
         });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mob=mobileNumber.getText().toString();
+                //yearThis = Calendar.getInstance().get(Calendar.YEAR);
+               // yearBorn = Integer.parseInt(details.get(2));
+                PatientData patientData=new PatientData("Amanjeet",temp,heartRaterange,"21","M","9717003912");
+                //PatientData patientData=new PatientData(details.get(0),temp,heartRaterange,String.valueOf(yearThis-yearBorn),details.get(1),mob);
+                reference.setValue(patientData);
+            }
+        });
+
     }
+
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e("FormActivity", "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+
     private class HeartTempInfo extends AsyncTask{
         HttpURLConnection httpURLConnection,httpURLConnection1;
         BufferedReader bufferedReader,bufferedReader1;
-        String temp;
         ArrayList<String> heartRange=new ArrayList<>();
         ProgressDialog progressDialog;
+
 
         @Override
         protected void onPreExecute() {
@@ -136,6 +209,7 @@ public class FormActivity extends AppCompatActivity {
             super.onPostExecute(o);
             tempVal.setText(""+temp);
             heartVal.setText(""+heartRange.get(0)+" - "+heartRange.get(1));
+            heartRaterange=heartRange.get(0)+" - "+heartRange.get(1);
             progressDialog.cancel();
         }
 

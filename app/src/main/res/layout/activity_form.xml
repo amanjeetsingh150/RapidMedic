@@ -176,9 +176,17 @@
             android:gravity="center"
             android:text="NULL"/>
     </LinearLayout>
-
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:id="@+id/recordfb"
+        android:src="@drawable/mic"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit request"/>
+        android:text="Submit request"
+        android:id="@+id/submit"/>
 </LinearLayout>

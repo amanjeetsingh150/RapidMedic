@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "750066777335",
+    "firebase_url": "https://sixth-backbone-163313.firebaseio.com",
+    "project_id": "sixth-backbone-163313",
+    "storage_bucket": "sixth-backbone-163313.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750066777335:android:ae53ac6992a9e6e6",
+        "android_client_info": {
+          "package_name": "com.developers.rapidmedic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750066777335-42saeqse55n1e8pe6ffttj9fa80k4edt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAROf32N8fSG9Q4AG8U3jbjr7OLvF35nnU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
