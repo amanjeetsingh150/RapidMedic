@@ -149,7 +149,7 @@ public class FormActivity extends AppCompatActivity {
             Log.e("FormActivity", "prepare() failed");
         }
 
-        mRecorder.start();
+            mRecorder.start();
     }
 
 
